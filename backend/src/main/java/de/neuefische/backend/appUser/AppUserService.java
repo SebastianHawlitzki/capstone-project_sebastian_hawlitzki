@@ -14,6 +14,7 @@ public class AppUserService {
     private final AppUserRepository appUserRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
+    //private int newUserIban = 1;
     public AppUser create (AppUser appUser) {
         Optional<AppUser> existingAppUser = findByUsername(
                 appUser.getUsername()
@@ -22,6 +23,8 @@ public class AppUserService {
         if (existingAppUser.isPresent()) {
             throw new ResponseStatusException(HttpStatus.CONFLICT);
         }
+       // String iban = "DE89 1001 1001 0000 0" + newUserIban++;
+        // appUser.setIban(iban);
 
         appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
 
@@ -35,6 +38,10 @@ public class AppUserService {
     public Optional<AppUser> findByUsername(String username) {
         return appUserRepository.findByUsername(username);
     }
+
+   // public Optional<AppUser> findByIban(String iban) {
+   //     return appUserRepository.findByIban(iban);
+  //  }
 
     public Optional<AppUser> findByUsernameWithoutPassword(String username) {
         Optional<AppUser> appUser = appUserRepository.findByUsername(username);
