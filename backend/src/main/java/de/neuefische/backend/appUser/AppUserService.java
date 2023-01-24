@@ -23,7 +23,7 @@ public class AppUserService {
         if (existingAppUser.isPresent()) {
             throw new ResponseStatusException(HttpStatus.CONFLICT);
         }
-       // String iban = "DE89 1001 1001 0000 0" + newUserIban++;
+       // String iban = "DE99 9009 9009 0000 0" + newUserIban++;
         // appUser.setIban(iban);
 
         appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
