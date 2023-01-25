@@ -11,5 +11,7 @@ public class AppUser {
     private String id;
     private String username;
     private String password;
-   // private String iban;
+    private int accountNumber;
+    private String accountType;
+    private double accountBalance;
 }

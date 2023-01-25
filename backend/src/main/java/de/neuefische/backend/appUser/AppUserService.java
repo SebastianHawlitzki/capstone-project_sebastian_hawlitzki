@@ -6,6 +6,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+
 import java.util.Optional;
 
 @Service
@@ -14,8 +15,8 @@ public class AppUserService {
     private final AppUserRepository appUserRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
-    //private int newUserIban = 1;
-    public AppUser create (AppUser appUser) {
+
+    public AppUser create(AppUser appUser) {
         Optional<AppUser> existingAppUser = findByUsername(
                 appUser.getUsername()
         );
@@ -23,8 +24,13 @@ public class AppUserService {
         if (existingAppUser.isPresent()) {
             throw new ResponseStatusException(HttpStatus.CONFLICT);
         }
-       // String iban = "DE99 9009 9009 0000 0" + newUserIban++;
-        // appUser.setIban(iban);
+
+        Optional <AppUser> maxAccountNumber =
+                appUserRepository.findTopByOrderByAccountNumberDesc();
+        int accountNumber = maxAccountNumber.map(AppUser::getAccountNumber).orElse(0) + 1;
+        //String accountNumberStatic = String.format("DE 99 9009 9009 0000 %02d", accountNumber);
+        //appUser.setAccountNumber(Integer.parseInt(accountNumberStatic));
+        appUser.setAccountNumber(accountNumber);
 
         appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
 
@@ -39,13 +45,12 @@ public class AppUserService {
         return appUserRepository.findByUsername(username);
     }
 
-   // public Optional<AppUser> findByIban(String iban) {
-   //     return appUserRepository.findByIban(iban);
-  //  }
 
     public Optional<AppUser> findByUsernameWithoutPassword(String username) {
         Optional<AppUser> appUser = appUserRepository.findByUsername(username);
         appUser.ifPresent(user -> user.setPassword(""));
         return appUser;
     }
+
+
 }
