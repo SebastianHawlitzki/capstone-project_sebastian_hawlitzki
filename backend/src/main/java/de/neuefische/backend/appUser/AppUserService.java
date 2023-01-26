@@ -28,9 +28,8 @@ public class AppUserService {
         Optional <AppUser> maxAccountNumber =
                 appUserRepository.findTopByOrderByAccountNumberDesc();
         int accountNumber = maxAccountNumber.map(AppUser::getAccountNumber).orElse(0) + 1;
-        //String accountNumberStatic = String.format("DE 99 9009 9009 0000 %02d", accountNumber);
-        //appUser.setAccountNumber(Integer.parseInt(accountNumberStatic));
         appUser.setAccountNumber(accountNumber);
+
 
         appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
 
