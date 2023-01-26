@@ -72,12 +72,76 @@ class AppUserServiceTest {
         AppUserService appUserService = new AppUserService(appUserRepository, bCryptPasswordEncoder);
 
         // when, then
-        try{
+        try {
             appUserService.create(appUser);
-        }catch (ResponseStatusException e) {
+        } catch (ResponseStatusException e) {
             Assertions.assertEquals(e.getStatus(), HttpStatus.CONFLICT);
         }
         Mockito.verify(appUserRepository).findByUsername("User");
     }
 
+    @Test
+    void findByUsername_whenAppUserExists_thenReturnAppUserByName() {
+        // given
+        AppUser appUser = new AppUser("1", "User", "password", 0, "private", 0);
+
+        AppUserRepository appUserRepository = Mockito.mock(AppUserRepository.class);
+        Mockito.when(appUserRepository.findByUsername(appUser.getUsername())).thenReturn(Optional.of(appUser));
+
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        AppUserService appUserService = new AppUserService(appUserRepository, bCryptPasswordEncoder);
+
+        // when
+        Optional<AppUser> actual = appUserService.findByUsername("User");
+
+        // then
+        AppUser expected = new AppUser("1", "User", "password", 0, "private", 0);
+        Assertions.assertEquals(actual, Optional.of(expected));
+
+        Mockito.verify(appUserRepository).findByUsername("User");
+
+
+    }
+
+    @Test
+    void findByUsername_whenAppUserEmpty_thenReturnNull() {
+        // given
+        AppUser appUser = new AppUser("1", "User", "password", 0, "private", 0);
+
+        AppUserRepository appUserRepository = Mockito.mock(AppUserRepository.class);
+        Mockito.when(appUserRepository.findByUsername(appUser.getUsername())).thenReturn(Optional.empty());
+
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        AppUserService appUserService = new AppUserService(appUserRepository, bCryptPasswordEncoder);
+
+        // when
+        Optional<AppUser> actual = appUserService.findByUsername(appUser.getUsername());
+
+        // then
+        Assertions.assertEquals(actual, Optional.empty());
+
+        Mockito.verify(appUserRepository).findByUsername("User");
+
+    }
+
+
+    @Test
+    void findByUsernameWithoutPassword_whenLogin_thenReturnUserWithoutPassword() {
+        // given
+        AppUser appUser = new AppUser("1", "User", "password", 0, "private", 0);
+
+        AppUserRepository appUserRepository = Mockito.mock(AppUserRepository.class);
+        Mockito.when(appUserRepository.findByUsername(appUser.getUsername())).thenReturn(Optional.of(appUser));
+
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        AppUserService appUserService = new AppUserService(appUserRepository, bCryptPasswordEncoder);
+
+        // when
+        Optional<AppUser> actual = appUserService.findByUsernameWithoutPassword(appUser.getUsername());
+
+        //then
+        Assertions.assertEquals(actual, Optional.of(appUser));
+
+        Mockito.verify(appUserRepository).findByUsername("User");
+    }
 }
