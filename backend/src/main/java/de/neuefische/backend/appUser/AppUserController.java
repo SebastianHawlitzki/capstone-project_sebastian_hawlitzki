@@ -22,6 +22,7 @@ public class AppUserController {
     @PostMapping("/login")
     public Optional<AppUser> login() {
         return me();
+
     }
 
     @GetMapping("/me")
