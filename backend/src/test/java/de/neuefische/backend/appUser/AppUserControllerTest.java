@@ -113,7 +113,7 @@ class AppUserControllerTest {
 
     @Test
     @WithMockUser(username = "user", roles = "BASIC")
-    void me_whenAppUserNotLoggedIn_thenReturn200() throws Exception {
+    void me_whenAppUserLoggedIn_thenReturn200() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/app-users/me")).
                 andExpectAll(MockMvcResultMatchers.status().isOk());
     }
