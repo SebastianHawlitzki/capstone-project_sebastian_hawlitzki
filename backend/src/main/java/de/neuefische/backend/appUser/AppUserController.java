@@ -32,6 +32,7 @@ public class AppUserController {
         );
     }
 
+
     @GetMapping("/logout")
     public void logout (HttpSession httpSession) {
         httpSession.invalidate();

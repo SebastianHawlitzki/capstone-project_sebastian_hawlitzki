@@ -8,9 +8,13 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import BottomAppBar from "../components/BottomAppBar";
 import AppUserCard from "../components/AppUserCard";
-
+import useAppUser from "../hooks/useAppUser";
 
 export default function HomePage() {
+
+
+
+
     return (
         <Box sx={{flexGrow: 1}}>
             <AppBar position="static">
