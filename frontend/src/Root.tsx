@@ -3,8 +3,8 @@ import Auth from "./components/Auth";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import React from "react";
-import LogoutButton from "./components/LogoutButton";
 import TransactionPage from "./pages/TransactionPage";
+import TransactionListPage from "./pages/TransactionListPage";
 
 export default function Root () {
     return (
@@ -17,8 +17,13 @@ export default function Root () {
 
             <Route path="/transaction" element={
                 <Auth>
-                    <LogoutButton/>
                     <TransactionPage/>
+                </Auth>
+            }/>
+
+            <Route path="/transaction-list" element={
+                <Auth>
+                    <TransactionListPage/>
                 </Auth>
             }/>
 
