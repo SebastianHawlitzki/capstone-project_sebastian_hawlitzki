@@ -32,6 +32,10 @@ public class AppUserController {
         );
     }
 
+    @GetMapping("/app-user")
+    public AppUser getAppUser(){
+        return appUserService.getAppUser();
+    }
 
     @GetMapping("/logout")
     public void logout (HttpSession httpSession) {

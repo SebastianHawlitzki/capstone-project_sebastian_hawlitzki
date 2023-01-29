@@ -3,7 +3,7 @@ import {AppUser} from "../models/AppUser";
 
 export async function getLoggedInUser() {
     try {
-        const response = await axios.get<AppUser>('api/app-users/me');
+        const response = await axios.get<AppUser>('api/app-users/app-user');
         return response.data;
     } catch (error) {
         console.error(error);

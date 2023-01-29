@@ -1,5 +1,5 @@
 export type AppUser = {
-    username: string
+    username: string,
     accountNumber: number,
     accountType: string,
     accountBalance: number

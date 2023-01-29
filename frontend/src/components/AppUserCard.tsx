@@ -9,13 +9,11 @@ import useAppUser from "../hooks/useAppUser";
 export default function AppUserCard() {
 
     const [loggedUser] = useAppUser();
+    console.log(loggedUser);
     if (!loggedUser) {
         return <div>...</div>;
     }
 
-    //const username = loggedUser.orElse({username: 'undefined'}).username;
-
-   //  {loggedUser.map(user => user.username).orElse("N/A")}
 
 
     const card = (
