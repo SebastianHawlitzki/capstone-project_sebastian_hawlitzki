@@ -13,5 +13,5 @@ export default function useAppUser(){
           })();
      }, []);
 
-     return [appUser,setAppUser];
+     return {appUser};
 }
