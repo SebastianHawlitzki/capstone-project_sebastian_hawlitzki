@@ -51,5 +51,4 @@ public class AppUserService {
         return appUser;
     }
 
-
 }

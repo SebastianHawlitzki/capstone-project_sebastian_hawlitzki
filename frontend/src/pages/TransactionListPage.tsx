@@ -1,16 +1,13 @@
+import Box from "@mui/material/Box";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
 import LogoutButton from "../components/LogoutButton";
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import BottomAppBar from "../components/BottomAppBar";
-import AppUserCard from "../components/AppUserCard";
+import * as React from "react";
+import BottomAppBarTransactionListPage from "../components/BottomAppBarTransactionListPage";
 
-export default function HomePage() {
-
-
+export default function TransactionListPage () {
 
 
     return (
@@ -24,15 +21,13 @@ export default function HomePage() {
                         aria-label="menu"
                         sx={{mr: 2}}>
                     </IconButton>
-                    <Typography variant="h5" component="div" sx={{flexGrow: 1}}>
+                    <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
                         SmartBanking
                     </Typography>
                     <LogoutButton/>
                 </Toolbar>
             </AppBar>
-            <AppUserCard/>
-            <BottomAppBar/>
+            <BottomAppBarTransactionListPage/>
         </Box>
-
     );
 }
