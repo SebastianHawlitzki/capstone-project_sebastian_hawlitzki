@@ -1,6 +1,5 @@
 package de.neuefische.backend.controller;
 
-import de.neuefische.backend.model.Transaction;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -28,20 +27,6 @@ class TransactionControllerTest {
                         MockMvcResultMatchers.status().isOk(),
                         MockMvcResultMatchers.content().json("[]")
                 );
-    }
-
-    @Test
-    void getAll_whenTransactionsExist_thenReturn200() throws Exception {
-
-        java.util.Date date = new java.util.Date();
-        Transaction transaction = new Transaction("1", 1, 2, 500, "Überweisung an ", date);
-
-        mvc.perform(MockMvcRequestBuilders.get("/api/transactions"))
-                .andExpectAll(
-                        MockMvcResultMatchers.status().isOk(),
-                        MockMvcResultMatchers.content().json("[]")
-                );
-
     }
 
 
