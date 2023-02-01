@@ -8,4 +8,6 @@ public interface AppUserRepository extends MongoRepository<AppUser, String> {
     Optional<AppUser> findByUsername(String username);
 
     Optional<AppUser> findTopByOrderByAccountNumberDesc();
+
+    Optional<AppUser> findAppUsersByAccountNumber( int accountNumber);
 }
