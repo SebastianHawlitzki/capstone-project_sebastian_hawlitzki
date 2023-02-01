@@ -1,11 +1,10 @@
 package de.neuefische.backend.controller;
 
+import de.neuefische.backend.appUser.AppUser;
 import de.neuefische.backend.model.Transaction;
 import de.neuefische.backend.service.TransactionService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,6 +18,12 @@ public class TransactionController {
     @GetMapping
     public List<Transaction> getAll () {
         return transactionService.getAll();
+    }
+
+
+    @PostMapping
+    public Transaction sendTransaction(@RequestBody Transaction transaction){
+        return transactionService.sendTransaction(transaction);
     }
 }
 
