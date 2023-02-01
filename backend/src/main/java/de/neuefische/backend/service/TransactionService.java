@@ -29,55 +29,43 @@ public class TransactionService {
 
 
     public Transaction sendTransaction(Transaction transaction) {
-        // Ich hole mir den eingeloggten Benutzer aus der Datenbank
         AppUser senderUser = appUserRepository.findByUsername
                 (SecurityContextHolder.getContext().getAuthentication().getName()).get();
 
-        // Ich setze die senderAccountNumber auf den eingeloggten Benutzer
         int senderAccountNumber = transaction.getSenderAccountNumber();
         senderUser.setAccountNumber(senderAccountNumber);
 
         double senderAccountBalance = senderUser.getAccountBalance();
         double transactionAmount = transaction.getAmount();
 
-        // Ich gleiche ab ob der eingeloggte Benutzer genug Geld zur verfügung hat um die Überweisung zu machen falls nit status 400
         if (senderAccountBalance <= 0 || senderAccountBalance < transactionAmount) {
             throw new NotEnoughBalanceException(senderAccountBalance);
-        }
+            }
 
-        // Ich hole mir den Empfänger mit der Iban (receiverAccountNumber) den ich in der transaction bekommen habe
         int receiverAccountNumber = transaction.getReceiverAccountNumber();
         Optional<AppUser> receiverUser = appUserRepository.findAppUsersByAccountNumber(receiverAccountNumber);
 
-        // Ich reduziere den Überweisungsbetrag von dem Kontostand des eingeloggten benutzer
         double updatedSenderAccountBalance = senderAccountBalance - transactionAmount;
         senderUser.setAccountBalance(updatedSenderAccountBalance);
 
-
-        // Ich addiere den Überweisungsbetrag auf den Kontostand von dem Empfänger
         if (receiverUser.isPresent()) {
             double receiverAccountBalance = receiverUser.get().getAccountBalance();
             double updateReceiverAccountBalance = receiverAccountBalance + transactionAmount;
             receiverUser.get().setAccountBalance(updateReceiverAccountBalance);
-        } else {
+            } else {
             throw new ItemNotFoundException(receiverAccountNumber);
-        }
+            }
 
-        //Ich vergebe das Transaction Datum
         Date transactionDate = new Date();
         transaction.setTransactionDate(transactionDate);
 
-        // Ich speicher den eingeloggten Benutzer in die Datenbank zurück
         appUserRepository.save(senderUser);
 
-        // Ich speicher die geänderten Daten vom Empfänger in die Datenbank zurück
         AppUser receiver = receiverUser.get();
         appUserRepository.save(receiver);
 
-        // Ich speicher die ausgeführte Transaktion in der Datenbank ab
         transactionRepository.save(transaction);
 
-        // Ich gebe die gespeicherte Transaktion zurück
         return transaction;
 
     }
