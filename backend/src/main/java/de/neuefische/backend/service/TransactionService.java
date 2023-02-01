@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,6 +63,10 @@ public class TransactionService {
             throw new ItemNotFoundException(receiverAccountNumber);
         }
 
+        //Ich vergebe das Transaction Datum
+        Date transactionDate = new Date();
+        transaction.setTransactionDate(transactionDate);
+
         // Ich speicher den eingeloggten Benutzer in die Datenbank zurück
         appUserRepository.save(senderUser);
 
@@ -74,7 +79,6 @@ public class TransactionService {
 
         // Ich gebe die gespeicherte Transaktion zurück
         return transaction;
-
 
     }
 }
