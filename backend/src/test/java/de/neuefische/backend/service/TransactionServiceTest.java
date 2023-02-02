@@ -1,17 +1,16 @@
 package de.neuefische.backend.service;
 
 
+
 import de.neuefische.backend.appUser.AppUserRepository;
-import de.neuefische.backend.appUser.AppUserService;
 import de.neuefische.backend.model.Transaction;
 import de.neuefische.backend.repository.TransactionRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import java.util.ArrayList;
 import java.util.List;
+
 
 class TransactionServiceTest {
     @Test
@@ -43,7 +42,7 @@ class TransactionServiceTest {
 
         TransactionRepository transactionRepository = Mockito.mock(TransactionRepository.class);
         Mockito.when(transactionRepository.findAll())
-                .thenReturn(List.of((new Transaction("1", "1", "2", 500, "Überweisung an ", date))));
+                .thenReturn(List.of((new Transaction("1", 1, 2, 500, "Überweisung an ", date))));
 
         TransactionService transactionService = new TransactionService(transactionRepository, appUserRepository);
 
@@ -51,7 +50,8 @@ class TransactionServiceTest {
         List<Transaction> actual = transactionService.getAll();
 
         // then
-        List<Transaction> expected = new ArrayList<>(List.of((new Transaction("1", "1", "2", 500, "Überweisung an ", date))));
+        List<Transaction> expected = new ArrayList<>(
+                List.of((new Transaction("1", 1, 2, 500, "Überweisung an ", date))));
 
         Assertions.assertEquals(expected, actual);
 
