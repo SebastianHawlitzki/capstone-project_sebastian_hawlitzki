@@ -38,7 +38,7 @@ public class TransactionService {
         double senderAccountBalance = senderUser.getAccountBalance();
         double transactionAmount = transaction.getAmount();
 
-        if (senderAccountBalance <= 0 || senderAccountBalance < transactionAmount) {
+        if (senderAccountBalance < transactionAmount) {
             throw new NotEnoughBalanceException(senderAccountBalance);
             }
 
