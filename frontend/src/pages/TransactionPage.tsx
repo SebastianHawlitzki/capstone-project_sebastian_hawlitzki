@@ -8,14 +8,22 @@ import * as React from "react";
 import BottomAppBarTransactionPage from "../components/BottomAppBarTransactionPage";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import {Grid, Paper, Stack} from "@mui/material";
+import {Grid, Paper, Snackbar, Stack} from "@mui/material";
 import SendIcon from '@mui/icons-material/Send';
 import Container from "@mui/material/Container";
 import {Transaction} from "../models/Transaction";
 import {FormEvent, useState} from "react";
 import axios from "axios";
 import useAppUser from "../hooks/useAppUser";
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
+
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+    props,
+    ref,
+) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 
 export default function TransactionPage() {
@@ -49,11 +57,31 @@ export default function TransactionPage() {
     };
 
 
+
+    const [open, setOpen] = React.useState(false);
+
+    const handleClick = () => {
+        setOpen(true);
+        setTimeout(() => {
+            window.location.reload();
+        }, 3000);
+    };
+
+    const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
+
+
+
+
     const {appUser} = useAppUser();
     if (!appUser) {
         return <div>...</div>;
     }
-
 
 
     return (
@@ -130,10 +158,18 @@ export default function TransactionPage() {
                                 display: 'flex',
                                 justifyContent:'center',
                                 alignItems: 'center',
+                                width: '100%'
                             }}>
-                                <Button type="submit" variant="contained" endIcon={<SendIcon/>} style={{width: '35ch'}}>
+                                <Button onClick={handleClick} type="submit" variant="contained" endIcon={<SendIcon/>} style={{width: '35ch'}}>
                                     Überweisen
                                 </Button>
+                                <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}
+                                          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                                          style={{ position: 'absolute', bottom: '80px', left: '20px', right: '20px' }}>
+                                    <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                                        Überweisung bestätigt!
+                                    </Alert>
+                                </Snackbar>
                             </Stack>
                         </Box>
                     </Box>
