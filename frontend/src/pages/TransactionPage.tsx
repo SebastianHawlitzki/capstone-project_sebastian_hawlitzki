@@ -8,6 +8,10 @@ import * as React from "react";
 import BottomAppBarTransactionPage from "../components/BottomAppBarTransactionPage";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import {Stack} from "@mui/material";
+import SendIcon from '@mui/icons-material/Send';
+import Container from "@mui/material/Container";
+
 
 export default function TransactionPage() {
 
@@ -29,48 +33,63 @@ export default function TransactionPage() {
                     <LogoutButton/>
                 </Toolbar>
             </AppBar>
+            <Container component="main" maxWidth="xs">
+                <Box
+                    sx={{
+                        marginTop: 6,
+                        display: 'flex',
+                        justifyContent:'center',
+                        alignItems: 'center',
+                        textAlign: 'center'
+                    }}
+                >
+                    <Box
+                        component="form"
+                        sx={{
+                            '& .MuiTextField-root': {m: 1, width: '25ch'},
+                        }}
+                        noValidate
+                        autoComplete="off"
+                    >
+                        <Box>
+                            <TextField
+                                id="outlined-number"
+                                label="IBAN"
+                                type="number"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                            />
+                            <TextField
+                                id="outlined-number"
+                                label="Betrag"
+                                type="number"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                            />
+                            <TextField
+                                id="outlined-input"
+                                label="Verwendungszweck"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                            />
+                            <Stack direction="row" spacing={2} sx={{
+                                marginTop: 2,
+                                display: 'flex',
+                                justifyContent:'center',
+                                alignItems: 'center',
+                            }}>
+                                <Button variant="contained" endIcon={<SendIcon/>}>
+                                    Überweisen
+                                </Button>
+                            </Stack>
+                        </Box>
+                    </Box>
+                </Box>
+            </Container>
             <BottomAppBarTransactionPage/>
-            <Box
-                sx={{paddingTop:2}}
-            >
-            <Box
-                component="form"
-                sx={{
-                    '& .MuiTextField-root': {m: 1, width: '25ch'},
-                }}
-                noValidate
-                autoComplete="off"
-            >
-                <div>
-                    <TextField
-                        id="outlined-number"
-                        label="IBAN"
-                        type="number"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                    />
-                    <TextField
-                        id="outlined-number"
-                        label="Betrag"
-                        type="number"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                    />
-                    <TextField
-                        id="outlined-input"
-                        label="Verwendungszweck"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                    />
-                </div>
-                <Button variant="contained"
-                        color="inherit"
-                >Überweisen</Button>
-            </Box>
-            </Box>
         </Box>
     );
 }

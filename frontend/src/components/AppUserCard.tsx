@@ -67,7 +67,7 @@ export default function AppUserCard() {
 
 
     return (
-        <Box sx={{minWidth: 275, padding: 2, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+        <Box sx={{minWidth: 275, display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft:2, marginTop:6, marginRight:2,}}>
             <Card variant="outlined">{card}</Card>
         </Box>
     );

@@ -1,11 +1,9 @@
-package de.neuefische.backend.service;
+package de.neuefische.backend.transaction;
 
 import de.neuefische.backend.appUser.AppUser;
 import de.neuefische.backend.appUser.AppUserRepository;
 import de.neuefische.backend.exception.ItemNotFoundException;
 import de.neuefische.backend.exception.NotEnoughBalanceException;
-import de.neuefische.backend.model.Transaction;
-import de.neuefische.backend.repository.TransactionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
