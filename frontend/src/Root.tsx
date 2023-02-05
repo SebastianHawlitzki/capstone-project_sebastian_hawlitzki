@@ -6,10 +6,13 @@ import React from "react";
 import TransactionPage from "./pages/TransactionPage";
 import TransactionListPage from "./pages/TransactionListPage";
 import SignUpPage from "./pages/SignUpPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 export default function Root () {
     return (
         <Routes>
+            <Route path="*" element={
+                <NotFoundPage/>}/>
             <Route path="/" element={
                 <Auth>
                     <HomePage/>
