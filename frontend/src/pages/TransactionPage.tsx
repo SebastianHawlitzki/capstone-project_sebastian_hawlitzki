@@ -11,9 +11,44 @@ import Button from "@mui/material/Button";
 import {Stack} from "@mui/material";
 import SendIcon from '@mui/icons-material/Send';
 import Container from "@mui/material/Container";
+import {Transaction} from "../models/Transaction";
+import {FormEvent, useState} from "react";
+import axios from "axios";
 
 
 export default function TransactionPage() {
+
+    const [transaction, setTransaction] = useState<Transaction>({
+        senderAccountNumber: 0,
+        receiverAccountNumber: 0,
+        amount: 0,
+        purpose: "",
+        transactionDate: new Date(),
+    });
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setTransaction({
+            ...transaction,
+            [e.target.name]: e.target.value,
+        });
+    };
+
+    const createTransaction = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const response = await axios.post("/api/transactions", transaction, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        setTransaction({
+            ...transaction,
+            ...response.data,
+        });
+    };
+
+
+
+
 
 
     return (
@@ -50,6 +85,7 @@ export default function TransactionPage() {
                         }}
                         noValidate
                         autoComplete="off"
+                        onSubmit={createTransaction}
                     >
                         <Box>
                             <TextField
@@ -59,14 +95,20 @@ export default function TransactionPage() {
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
+                                value={transaction.receiverAccountNumber}
+                                onChange={handleChange}
+                                name="receiverAccountNumber"
                             />
                             <TextField
                                 id="outlined-number"
-                                label="Betrag"
+                                label="Betrag in €"
                                 type="number"
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
+                                value={transaction.amount}
+                                onChange={handleChange}
+                                name="amount"
                             />
                             <TextField
                                 id="outlined-input"
@@ -74,6 +116,9 @@ export default function TransactionPage() {
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
+                                value={transaction.purpose}
+                                onChange={handleChange}
+                                name="purpose"
                             />
                             <Stack direction="row" spacing={2} sx={{
                                 marginTop: 2,
@@ -81,7 +126,7 @@ export default function TransactionPage() {
                                 justifyContent:'center',
                                 alignItems: 'center',
                             }}>
-                                <Button variant="contained" endIcon={<SendIcon/>}>
+                                <Button type="submit" variant="contained" endIcon={<SendIcon/>}>
                                     Überweisen
                                 </Button>
                             </Stack>

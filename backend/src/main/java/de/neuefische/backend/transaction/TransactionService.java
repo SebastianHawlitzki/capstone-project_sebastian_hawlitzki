@@ -30,8 +30,8 @@ public class TransactionService {
         AppUser senderUser = appUserRepository.findByUsername
                 (SecurityContextHolder.getContext().getAuthentication().getName()).get();
 
-        int senderAccountNumber = transaction.getSenderAccountNumber();
-        senderUser.setAccountNumber(senderAccountNumber);
+        int senderAccountNumber = senderUser.getAccountNumber();
+        transaction.setSenderAccountNumber(senderAccountNumber);
 
         double senderAccountBalance = senderUser.getAccountBalance();
         double transactionAmount = transaction.getAmount();
