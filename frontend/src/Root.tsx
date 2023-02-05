@@ -5,6 +5,7 @@ import LoginPage from "./pages/LoginPage";
 import React from "react";
 import TransactionPage from "./pages/TransactionPage";
 import TransactionListPage from "./pages/TransactionListPage";
+import SignUpPage from "./pages/SignUpPage";
 
 export default function Root () {
     return (
@@ -14,20 +15,21 @@ export default function Root () {
                     <HomePage/>
                 </Auth>
             }/>
-
             <Route path="/transaction" element={
                 <Auth>
                     <TransactionPage/>
                 </Auth>
             }/>
-
             <Route path="/transaction-list" element={
                 <Auth>
                     <TransactionListPage/>
                 </Auth>
             }/>
-
-            <Route path="/login" element={<LoginPage/>}/>
+            <Route path="/login" element={
+                <LoginPage/>}/>
+            <Route path="signup" element={
+                    <SignUpPage/>
+            }/>
         </Routes>
     );
 }
