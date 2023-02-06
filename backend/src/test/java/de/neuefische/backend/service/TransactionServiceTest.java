@@ -3,8 +3,9 @@ package de.neuefische.backend.service;
 
 
 import de.neuefische.backend.appUser.AppUserRepository;
-import de.neuefische.backend.model.Transaction;
-import de.neuefische.backend.repository.TransactionRepository;
+import de.neuefische.backend.transaction.Transaction;
+import de.neuefische.backend.transaction.TransactionRepository;
+import de.neuefische.backend.transaction.TransactionService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

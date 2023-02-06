@@ -10,3 +10,4 @@ export async function getLoggedInUser() {
         throw error;
     }
 }
+

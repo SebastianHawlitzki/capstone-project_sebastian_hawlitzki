@@ -1,6 +1,5 @@
-package de.neuefische.backend.repository;
+package de.neuefische.backend.transaction;
 
-import de.neuefische.backend.model.Transaction;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 

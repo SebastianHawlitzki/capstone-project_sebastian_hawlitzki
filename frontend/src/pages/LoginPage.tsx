@@ -1,4 +1,4 @@
-import {FormEvent, useCallback, useState} from "react";
+import {FormEvent, useCallback,useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import * as React from 'react';
@@ -26,6 +26,15 @@ export default function LoginPage () {
     const [error, setError] = useState("");
 
     const navigate = useNavigate();
+
+    const toSignUpPage = () => {
+        navigate('/signup');
+    };
+
+
+
+
+
 
     const login = useCallback(async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -129,7 +138,7 @@ function Copyright(props: any) {
                             Sign In
                         </Button>
                         <Grid container justifyContent="center">
-                                <Link href="#" variant="body2">
+                                <Link onClick={toSignUpPage} variant="body2">
                                     {"Don't have an account? Sign Up"}
                                 </Link>
                         </Grid>

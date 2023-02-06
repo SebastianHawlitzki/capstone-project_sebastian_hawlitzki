@@ -8,8 +8,80 @@ import * as React from "react";
 import BottomAppBarTransactionPage from "../components/BottomAppBarTransactionPage";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import {Grid, Paper, Snackbar, Stack} from "@mui/material";
+import SendIcon from '@mui/icons-material/Send';
+import Container from "@mui/material/Container";
+import {Transaction} from "../models/Transaction";
+import {FormEvent, useState} from "react";
+import axios from "axios";
+import useAppUser from "../hooks/useAppUser";
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
+
+
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+    props,
+    ref,
+) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 
 export default function TransactionPage() {
+
+    const [transaction, setTransaction] = useState<Transaction>({
+        senderAccountNumber: 0,
+        receiverAccountNumber: 0,
+        amount: 0,
+        purpose: "",
+        transactionDate: new Date(),
+    });
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setTransaction({
+            ...transaction,
+            [e.target.name]: e.target.value,
+        });
+    };
+
+    const createTransaction = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const response = await axios.post("/api/transactions", transaction, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        setTransaction({
+            ...transaction,
+            ...response.data,
+        });
+    };
+
+
+
+    const [open, setOpen] = React.useState(false);
+
+    const handleClick = () => {
+        setOpen(true);
+        setTimeout(() => {
+            window.location.reload();
+        }, 3000);
+    };
+
+    const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
+
+
+
+
+    const {appUser} = useAppUser();
+    if (!appUser) {
+        return <div>...</div>;
+    }
 
 
     return (
@@ -29,48 +101,97 @@ export default function TransactionPage() {
                     <LogoutButton/>
                 </Toolbar>
             </AppBar>
+            <Container component="main" maxWidth="xs">
+                <Box
+                    sx={{
+                        marginTop: 6,
+                        display: 'flex',
+                        justifyContent:'center',
+                        alignItems: 'center',
+                        textAlign: 'center'
+                    }}
+                >
+                    <Box
+                        component="form"
+                        sx={{
+                            '& .MuiTextField-root': {m: 1, width: '35ch'},
+                        }}
+                        noValidate
+                        autoComplete="off"
+                        onSubmit={createTransaction}
+                    >
+                        <Box>
+                            <TextField
+                                id="outlined-number"
+                                label="IBAN"
+                                type="number"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                value={transaction.receiverAccountNumber}
+                                onChange={handleChange}
+                                name="receiverAccountNumber"
+                            />
+                            <TextField
+                                id="outlined-number"
+                                label="Betrag in €"
+                                type="number"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                value={transaction.amount}
+                                onChange={handleChange}
+                                name="amount"
+                            />
+                            <TextField
+                                id="outlined-input"
+                                label="Verwendungszweck"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                value={transaction.purpose}
+                                onChange={handleChange}
+                                name="purpose"
+                            />
+                            <Stack direction="row" spacing={2} sx={{
+                                marginTop: 2,
+                                display: 'flex',
+                                justifyContent:'center',
+                                alignItems: 'center',
+                                width: '100%'
+                            }}>
+                                <Button onClick={handleClick} type="submit" variant="contained" endIcon={<SendIcon/>} style={{width: '35ch'}}>
+                                    Überweisen
+                                </Button>
+                                <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}
+                                          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                                          style={{ position: 'absolute', bottom: '80px', left: '20px', right: '20px' }}>
+                                    <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                                        Überweisung bestätigt!
+                                    </Alert>
+                                </Snackbar>
+                            </Stack>
+                        </Box>
+                    </Box>
+                </Box>
+            </Container>
+            <Box sx={{
+                display: 'flex',
+                justifyContent:'center',
+                alignItems: 'center',
+            }}>
+            <Paper elevation={1} style={{ padding: 10, margin:20, marginTop:50, width: '35ch'}}>
+                <Grid container justifyContent={"space-between"}>
+                    <Grid item>
+                <Typography variant="h6" style={{fontSize: 18, fontWeight: 400}}>Kontostand:</Typography>
+                </Grid>
+                    <Grid item>
+                <Typography variant="h6" style={{fontSize: 18, fontWeight: 400}}>{appUser.accountBalance} €</Typography>
+                </Grid>
+                </Grid>
+            </Paper>
+            </Box>
             <BottomAppBarTransactionPage/>
-            <Box
-                sx={{paddingTop:2}}
-            >
-            <Box
-                component="form"
-                sx={{
-                    '& .MuiTextField-root': {m: 1, width: '25ch'},
-                }}
-                noValidate
-                autoComplete="off"
-            >
-                <div>
-                    <TextField
-                        id="outlined-number"
-                        label="IBAN"
-                        type="number"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                    />
-                    <TextField
-                        id="outlined-number"
-                        label="Betrag"
-                        type="number"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                    />
-                    <TextField
-                        id="outlined-input"
-                        label="Verwendungszweck"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                    />
-                </div>
-                <Button variant="contained"
-                        color="inherit"
-                >Überweisen</Button>
-            </Box>
-            </Box>
         </Box>
     );
 }
