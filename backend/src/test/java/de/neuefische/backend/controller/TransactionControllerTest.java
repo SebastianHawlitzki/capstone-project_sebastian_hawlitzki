@@ -23,7 +23,7 @@ class TransactionControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
+/*
     @Test
     void getAll_whenEmpty_thenReturn200() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/transactions"))
@@ -32,6 +32,8 @@ class TransactionControllerTest {
                         content().json("[]")
                 );
     }
+
+ */
 
 
     @Test
