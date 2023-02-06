@@ -27,25 +27,25 @@ public class TransactionService {
         AppUser senderUser = appUserRepository.findByUsername
                 (SecurityContextHolder.getContext().getAuthentication().getName()).get();
 
-        int senderAccountNumber = senderUser.getAccountNumber();
+        int authUserAccountNumber = senderUser.getAccountNumber();
 
         List<Transaction> allTransactions = transactionRepository.findAll();
 
-        List<Transaction> senderTransactions = new ArrayList<>();
+        List<Transaction> authUserTransactions = new ArrayList<>();
 
         for(Transaction transaction:allTransactions)
         {
-            if(transaction.getSenderAccountNumber() == senderAccountNumber)
+            if(transaction.getSenderAccountNumber() == authUserAccountNumber)
             {
-                senderTransactions.add(transaction);
+                authUserTransactions.add(transaction);
             }
-            if(transaction.getReceiverAccountNumber() == senderAccountNumber)
+            if(transaction.getReceiverAccountNumber() == authUserAccountNumber)
             {
-                senderTransactions.add(transaction);
+                authUserTransactions.add(transaction);
             }
         }
 
-        return senderTransactions;
+        return authUserTransactions;
     }
 
 
