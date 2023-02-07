@@ -28,7 +28,9 @@ export default function TransactionListPage () {
                     <LogoutButton/>
                 </Toolbar>
             </AppBar>
+            <Box sx={{marginBottom:5}}>
            <TransactionTable/>
+            </Box>
             <BottomAppBarTransactionListPage/>
         </Box>
     );

@@ -8,13 +8,19 @@ import {
     tableCellClasses,
     TableContainer,
     TableHead,
-    TableRow
+    TableRow,
 } from "@mui/material";
+import {useEffect, useState} from "react";
+import {Transaction} from "../models/Transaction";
+import axios from "axios";
+import Box from "@mui/material/Box";
+
+
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-        backgroundColor: theme.palette.common.black,
+        backgroundColor: theme.palette.grey.A700,
         color: theme.palette.common.white,
     },
     [`&.${tableCellClasses.body}`]: {
@@ -32,56 +38,65 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-function createData(
-    name: string,
-    calories: number,
-    fat: number,
-    carbs: number,
-    protein: number,
-) {
-    return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
-
 
 export default function TransactionTable() {
+/*
+    const [transaction, setTransaction] = useState<Transaction>({
+        senderAccountNumber: 0,
+        receiverAccountNumber: 0,
+        amount: 0,
+        purpose: "",
+        transactionDate: new Date()
+    });
 
+ */
 
+    const [transactions, setTransactions] = useState<Transaction[]>([]);
+    useEffect(() => {
+        (async () => {
+            const response = await axios.get("/api/transactions");
+            setTransactions(response.data);
+        })();
+    }, []);
 
+    const convert = Intl.NumberFormat('de-DE', {
+
+        style: 'currency',
+
+        currency: 'EUR',
+
+        minimumFractionDigits: 2,
+
+    });
+
+//{transaction.transactionDate.toLocaleDateString()}
     return (
+        <Box sx={{padding:3 }}>
         <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 700, marginTop:6}} aria-label="customized table">
+            <Table sx={{ width:'80%',margin:'auto' }} aria-label="customized table">
                 <TableHead>
                     <TableRow>
-                        <StyledTableCell>Dessert (100g serving)</StyledTableCell>
-                        <StyledTableCell align="right">Calories</StyledTableCell>
-                        <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-                        <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-                        <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
+                        <StyledTableCell>Datum</StyledTableCell>
+                        <StyledTableCell align="right">Betrag</StyledTableCell>
+                        <StyledTableCell align="right">Verwendungszweck</StyledTableCell>
+                        <StyledTableCell align="right">Empfänger-IBAN</StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map((row) => (
-                        <StyledTableRow key={row.name}>
+                    {transactions.map((transaction) => (
+                        <StyledTableRow>
                             <StyledTableCell component="th" scope="row">
-                                {row.name}
+
                             </StyledTableCell>
-                            <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                            <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                            <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                            <StyledTableCell align="right">{row.protein}</StyledTableCell>
+                            <StyledTableCell align="right">{convert.format(transaction.amount)}</StyledTableCell>
+                            <StyledTableCell align="right">{transaction.purpose}</StyledTableCell>
+                            <StyledTableCell align="right">{transaction.receiverAccountNumber}</StyledTableCell>
                         </StyledTableRow>
                     ))}
                 </TableBody>
             </Table>
         </TableContainer>
+            </Box>
     );
 }
 
