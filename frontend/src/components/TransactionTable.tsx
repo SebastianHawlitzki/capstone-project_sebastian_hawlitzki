@@ -73,7 +73,7 @@ export default function TransactionTable() {
     return (
         <Box sx={{padding:3 }}>
         <TableContainer component={Paper}>
-            <Table sx={{ width:'80%',margin:'auto' }} aria-label="customized table">
+            <Table sx={{ width:'90%',margin:'auto' }} aria-label="customized table">
                 <TableHead>
                     <TableRow>
                         <StyledTableCell>Datum</StyledTableCell>
