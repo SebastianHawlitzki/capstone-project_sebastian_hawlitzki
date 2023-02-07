@@ -13,8 +13,8 @@ public class TransactionController {
     private final TransactionService transactionService;
 
     @GetMapping
-    public List<Transaction> getAll () {
-        return transactionService.getAll();
+    public List<Transaction> getAllFromAuthUser() {
+        return transactionService.getAllFromAuthUser();
     }
 
 

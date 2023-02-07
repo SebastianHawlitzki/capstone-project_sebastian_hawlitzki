@@ -15,6 +15,7 @@ import Button from "@mui/material/Button";
 import * as React from "react";
 
 
+
 export default function SignUpPage () {
     const [credentials, setCredentials] = useState({
         username: "",
@@ -24,6 +25,7 @@ export default function SignUpPage () {
 
     const [error, setError] = useState<string[]>([]);
 
+    // React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
     const handleChange = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
             const {name, value} = event.target;
