@@ -14,6 +14,16 @@ export default function AppUserCard() {
         return <div>...</div>;
     }
 
+    const convert = Intl.NumberFormat('de-DE', {
+
+        style: 'currency',
+
+        currency: 'EUR',
+
+        minimumFractionDigits: 2,
+
+    });
+
 
     const card = (
         <React.Fragment>
@@ -51,7 +61,7 @@ export default function AppUserCard() {
                         <Grid item>
                             <Typography variant="body1" paddingTop={2} paddingBottom={2}
                                         style={{fontSize: 18, fontWeight: 400}}>
-                                {appUser.accountBalance}€
+                                {convert.format(appUser.accountBalance)}
                             </Typography>
                         </Grid>
                     </Grid>

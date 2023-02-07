@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import LogoutButton from "../components/LogoutButton";
 import * as React from "react";
 import BottomAppBarTransactionListPage from "../components/BottomAppBarTransactionListPage";
+import TransactionTable from "../components/TransactionTable";
 
 export default function TransactionListPage () {
 
@@ -27,6 +28,7 @@ export default function TransactionListPage () {
                     <LogoutButton/>
                 </Toolbar>
             </AppBar>
+           <TransactionTable/>
             <BottomAppBarTransactionListPage/>
         </Box>
     );

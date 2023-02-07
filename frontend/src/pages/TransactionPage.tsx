@@ -76,12 +76,21 @@ export default function TransactionPage() {
     };
 
 
-
-
     const {appUser} = useAppUser();
     if (!appUser) {
         return <div>...</div>;
     }
+
+    const convert = Intl.NumberFormat('de-DE', {
+
+        style: 'currency',
+
+        currency: 'EUR',
+
+        minimumFractionDigits: 2,
+
+    });
+
 
 
     return (
@@ -186,7 +195,7 @@ export default function TransactionPage() {
                 <Typography variant="h6" style={{fontSize: 18, fontWeight: 400}}>Kontostand:</Typography>
                 </Grid>
                     <Grid item>
-                <Typography variant="h6" style={{fontSize: 18, fontWeight: 400}}>{appUser.accountBalance} €</Typography>
+                <Typography variant="h6" style={{fontSize: 18, fontWeight: 400}}> {convert.format(appUser.accountBalance)}</Typography>
                 </Grid>
                 </Grid>
             </Paper>
