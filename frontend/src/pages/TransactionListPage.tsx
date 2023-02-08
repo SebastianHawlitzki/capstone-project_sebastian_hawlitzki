@@ -7,6 +7,7 @@ import LogoutButton from "../components/LogoutButton";
 import * as React from "react";
 import BottomAppBarTransactionListPage from "../components/BottomAppBarTransactionListPage";
 import TransactionTable from "../components/TransactionTable";
+import AccountBalanceDisplay from "../components/AccountBalanceDisplay";
 
 export default function TransactionListPage () {
 
@@ -30,6 +31,7 @@ export default function TransactionListPage () {
             </AppBar>
             <Box sx={{marginBottom:5}}>
            <TransactionTable/>
+                <AccountBalanceDisplay/>
             </Box>
             <BottomAppBarTransactionListPage/>
         </Box>

@@ -14,13 +14,14 @@ import {useEffect, useState} from "react";
 import {Transaction} from "../models/Transaction";
 import axios from "axios";
 import Box from "@mui/material/Box";
+import useAppUser from "../hooks/useAppUser";
 
 
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-        backgroundColor: theme.palette.grey.A700,
+        backgroundColor: theme.palette.primary.main,
         color: theme.palette.common.white,
     },
     [`&.${tableCellClasses.body}`]: {
@@ -30,13 +31,15 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
+       // backgroundColor: theme.palette.action.hover,
+
     },
     // hide last border
     '&:last-child td, &:last-child th': {
         border: 0,
     },
 }));
+
 
 
 export default function TransactionTable() {
@@ -56,17 +59,38 @@ export default function TransactionTable() {
         minimumFractionDigits: 2,
     });
 
-// const plusOrMinus = if(appuser.accountnumber === transaction.senderAccountNumber) {
-    // return "+"
-// } else {
-// return "-"
+
+    const {appUser} = useAppUser();
+    if (!appUser) {
+        return <div>...</div>;
+    }
+
+
+
+    const plusOrMinusAmount = (transaction: Transaction) => {
+        if (appUser.accountNumber === transaction.senderAccountNumber) {
+            return "- ";
+        } else {
+            return "+ ";
+        }
+    };
+
+
+
+    const tableRowHighlight = (transaction: Transaction) => {
+        if (appUser.accountNumber === transaction.senderAccountNumber) {
+            return <div className={"amountRed"}/>;
+        } else {
+            return <div className={"amountGreen"}/>;
+        }
+    };
 
 
 
     return (
-        <Box sx={{padding:3 }}>
-        <TableContainer component={Paper}>
-            <Table sx={{ width:'90%',margin:'auto' }} aria-label="customized table">
+        <Box sx={{paddingTop:4, paddingLeft: 3, paddingRight:3}}>
+        <TableContainer component={Paper} style={{ height: '400px', overflowY: 'scroll' }}>
+            <Table sx={{ width:'200%',margin:'auto' }} stickyHeader aria-label="sticky table">
                 <TableHead>
                     <TableRow>
                         <StyledTableCell>Datum</StyledTableCell>
@@ -77,7 +101,7 @@ export default function TransactionTable() {
                 </TableHead>
                 <TableBody>
                     {transactions.map((transaction) => (
-                        <StyledTableRow>
+                        <StyledTableRow className={tableRowHighlight(transaction).props.className}>
                             <StyledTableCell component="th" scope="row">
                                 {new Date(transaction.transactionDate).toLocaleDateString("de-DE", {
                                     weekday: 'short',
@@ -86,7 +110,7 @@ export default function TransactionTable() {
                                     year: 'numeric'
                                 })}
                             </StyledTableCell>
-                            <StyledTableCell align="right">{convert.format(transaction.amount)}</StyledTableCell>
+                            <StyledTableCell align="right" >{plusOrMinusAmount(transaction)}{convert.format(transaction.amount)}</StyledTableCell>
                             <StyledTableCell align="right">{transaction.purpose}</StyledTableCell>
                             <StyledTableCell align="right">{transaction.receiverAccountNumber}</StyledTableCell>
                         </StyledTableRow>
