@@ -33,7 +33,7 @@ export default function TransactionPage() {
         receiverAccountNumber: 0,
         amount: 0,
         purpose: "",
-        transactionDate: new Date(),
+        transactionDate: new Date().toLocaleDateString(),
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

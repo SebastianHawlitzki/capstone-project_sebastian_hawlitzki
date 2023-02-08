@@ -3,5 +3,5 @@ export type Transaction = {
     receiverAccountNumber: number,
     amount: number,
     purpose: string,
-    transactionDate: Date
+    transactionDate: string
 }

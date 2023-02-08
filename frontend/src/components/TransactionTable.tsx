@@ -40,16 +40,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 
 export default function TransactionTable() {
-/*
-    const [transaction, setTransaction] = useState<Transaction>({
-        senderAccountNumber: 0,
-        receiverAccountNumber: 0,
-        amount: 0,
-        purpose: "",
-        transactionDate: new Date()
-    });
 
- */
 
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     useEffect(() => {
@@ -60,16 +51,18 @@ export default function TransactionTable() {
     }, []);
 
     const convert = Intl.NumberFormat('de-DE', {
-
         style: 'currency',
-
         currency: 'EUR',
-
         minimumFractionDigits: 2,
-
     });
 
-//{transaction.transactionDate.toLocaleDateString()}
+// const plusOrMinus = if(appuser.accountnumber === transaction.senderAccountNumber) {
+    // return "+"
+// } else {
+// return "-"
+
+
+
     return (
         <Box sx={{padding:3 }}>
         <TableContainer component={Paper}>
@@ -86,7 +79,12 @@ export default function TransactionTable() {
                     {transactions.map((transaction) => (
                         <StyledTableRow>
                             <StyledTableCell component="th" scope="row">
-
+                                {new Date(transaction.transactionDate).toLocaleDateString("de-DE", {
+                                    weekday: 'short',
+                                    day: 'numeric',
+                                    month: 'short',
+                                    year: 'numeric'
+                                })}
                             </StyledTableCell>
                             <StyledTableCell align="right">{convert.format(transaction.amount)}</StyledTableCell>
                             <StyledTableCell align="right">{transaction.purpose}</StyledTableCell>
