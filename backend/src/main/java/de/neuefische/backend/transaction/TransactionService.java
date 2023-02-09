@@ -9,7 +9,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -29,23 +28,8 @@ public class TransactionService {
 
         int authUserAccountNumber = senderUser.getAccountNumber();
 
-        List<Transaction> allTransactions = transactionRepository.findAll();
+        return transactionRepository.findBySenderAccountNumberOrReceiverAccountNumber(authUserAccountNumber, authUserAccountNumber);
 
-        List<Transaction> authUserTransactions = new ArrayList<>();
-
-        for(Transaction transaction:allTransactions)
-        {
-            if(transaction.getSenderAccountNumber() == authUserAccountNumber)
-            {
-                authUserTransactions.add(transaction);
-            }
-            if(transaction.getReceiverAccountNumber() == authUserAccountNumber)
-            {
-                authUserTransactions.add(transaction);
-            }
-        }
-
-        return authUserTransactions;
     }
 
 

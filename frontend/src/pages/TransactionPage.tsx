@@ -8,14 +8,14 @@ import * as React from "react";
 import BottomAppBarTransactionPage from "../components/BottomAppBarTransactionPage";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import {Grid, Paper, Snackbar, Stack} from "@mui/material";
+import {Snackbar, Stack} from "@mui/material";
 import SendIcon from '@mui/icons-material/Send';
 import Container from "@mui/material/Container";
 import {Transaction} from "../models/Transaction";
 import {FormEvent, useState} from "react";
 import axios from "axios";
-import useAppUser from "../hooks/useAppUser";
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import AccountBalanceDisplay from "../components/AccountBalanceDisplay";
 
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
@@ -29,11 +29,12 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 export default function TransactionPage() {
 
     const [transaction, setTransaction] = useState<Transaction>({
+        id: "",
         senderAccountNumber: 0,
         receiverAccountNumber: 0,
         amount: 0,
         purpose: "",
-        transactionDate: new Date(),
+        transactionDate: ""
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -77,11 +78,6 @@ export default function TransactionPage() {
 
 
 
-
-    const {appUser} = useAppUser();
-    if (!appUser) {
-        return <div>...</div>;
-    }
 
 
     return (
@@ -180,16 +176,7 @@ export default function TransactionPage() {
                 justifyContent:'center',
                 alignItems: 'center',
             }}>
-            <Paper elevation={1} style={{ padding: 10, margin:20, marginTop:50, width: '35ch'}}>
-                <Grid container justifyContent={"space-between"}>
-                    <Grid item>
-                <Typography variant="h6" style={{fontSize: 18, fontWeight: 400}}>Kontostand:</Typography>
-                </Grid>
-                    <Grid item>
-                <Typography variant="h6" style={{fontSize: 18, fontWeight: 400}}>{appUser.accountBalance} €</Typography>
-                </Grid>
-                </Grid>
-            </Paper>
+            <AccountBalanceDisplay/>
             </Box>
             <BottomAppBarTransactionPage/>
         </Box>

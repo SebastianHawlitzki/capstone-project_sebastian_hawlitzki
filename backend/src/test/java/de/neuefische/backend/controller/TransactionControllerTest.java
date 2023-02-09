@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -25,27 +26,12 @@ class TransactionControllerTest {
     private MockMvc mockMvc;
 
 
-    // Test cases:
-    // 1. whenAuthUserAccountNumberEqualsTransactionSenderAccountNumber_thenReturnAuthUserTransactions
-    // 2. whenAuthUserAccountNumberEqualsTransactionReceiverAccountNumber_thenReturnAuthUserTransactions
 
-   /*
     @Test
-    @WithMockUser(username = "senderUser", roles = "BASIC")
-    void getAllFromAuthUser_whenEmpty_thenReturn400() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/transactions"))
-                .andExpectAll(
-                        status().isBadRequest()
-                );
-    }
-
-    */
-   @Test
-   @WithMockUser(username = "authUser", roles = "BASIC")
-    void getAllFromAuthUser_whenAuthUserAccountNumberEqualsTransactionSenderAccountNumber_thenReturnAuthUserTransactions() throws Exception{
-       String authUser = """
+    void getAllFromAuthUser_whenAuthUserAccountNumberEqualsTransactionSenderAccountNumberOrTransactionReceiverAccountNumber_thenReturnAuthUserTransactions() throws Exception {
+        String senderUser = """
                 {
-                    "username":"authUser",
+                    "username":"senderUser",
                     "password":"password",
                     "accountNumber": "", 
                     "accountType": "private",
@@ -53,99 +39,11 @@ class TransactionControllerTest {
                 }
                 """;
 
-       String expectedAuthUser = """
+        String expectedSenderUser = """
                 {
-                    "username": "authUser",
+                    "username": "senderUser",
                     "password": "",
-                    "accountNumber": 1, 
-                    "accountType": "private",
-                    "accountBalance": 1500
-                }
-                """;
-
-       String receiverUser = """
-                {
-                    "username": "receiverUser",
-                    "password": "password",
-                    "accountNumber": "",
-                    "accountType": "private",
-                    "accountBalance": ""
-                }
-                """;
-
-       String expectedReceiverUser = """
-                {
-                    "username": "receiverUser",
-                    "password": "",
-                    "accountNumber": 2, 
-                    "accountType": "private",
-                    "accountBalance": 1500
-                }
-                """;
-
-       mockMvc.perform(MockMvcRequestBuilders.post("/api/app-users")
-                       .contentType(MediaType.APPLICATION_JSON)
-                       .content(authUser))
-               .andExpect(status().isOk())
-               .andExpect(content().json(expectedAuthUser));
-
-       mockMvc.perform(MockMvcRequestBuilders.post("/api/app-users")
-                       .contentType(MediaType.APPLICATION_JSON)
-                       .content(receiverUser))
-               .andExpect(content().json(expectedReceiverUser));
-
-
-       mockMvc.perform(MockMvcRequestBuilders.post("/api/transactions")
-               .contentType(MediaType.APPLICATION_JSON)
-               .content("""
-                        
-                        {       "id": "1",
-                                "senderAccountNumber": 1,
-                                "receiverAccountNumber": 2,
-                                "amount": 500,
-                                "purpose": "test transaction",
-                                "transactionDate": ""
-                        }
-                         
-                        """));
-
-
-       mockMvc.perform(MockMvcRequestBuilders.get("/api/transactions"))
-               .andExpect(status().isOk())
-               .andExpect(content().json("""
-                                  [
-                                  {
-                                "id": "1",
-                                "senderAccountNumber": 1,
-                                "receiverAccountNumber": 2,
-                                "amount": 500.0,
-                                "purpose": "test transaction"
-                                }
-                                ]
-                                """,
-                               false));
-
-   }
-
-/*
-    @Test
-    @WithMockUser(username = "authUser", roles = "BASIC")
-    void getAllFromAuthUser_whenAuthUserAccountNumberEqualsTransactionReceiverAccountNumber_thenReturnAuthUserTransactions() throws Exception{
-        String authUser = """
-                {
-                    "username":"authUser",
-                    "password":"password",
-                    "accountNumber": "", 
-                    "accountType": "private",
-                    "accountBalance": ""
-                }
-                """;
-
-        String expectedAuthUser = """
-                {
-                    "username": "authUser",
-                    "password": "",
-                    "accountNumber": 1, 
+                    "accountNumber": 1,
                     "accountType": "private",
                     "accountBalance": 1500
                 }
@@ -171,72 +69,22 @@ class TransactionControllerTest {
                 }
                 """;
 
-        String user3 = """
-                {
-                    "username": "receiverUser",
-                    "password": "password",
-                    "accountNumber": "",
-                    "accountType": "private",
-                    "accountBalance": ""
-                }
-                """;
-
-        String expectedUser3 = """
-                {
-                    "username": "receiverUser",
-                    "password": "",
-                    "accountNumber": 3, 
-                    "accountType": "private",
-                    "accountBalance": 1500
-                }
-                """;
-
-        String user4 = """
-                {
-                    "username": "receiverUser",
-                    "password": "password",
-                    "accountNumber": "",
-                    "accountType": "private",
-                    "accountBalance": ""
-                }
-                """;
-
-        String expectedUser4 = """
-                {
-                    "username": "receiverUser",
-                    "password": "",
-                    "accountNumber": 4, 
-                    "accountType": "private",
-                    "accountBalance": 1500
-                }
-                """;
-
         mockMvc.perform(MockMvcRequestBuilders.post("/api/app-users")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(authUser))
+                        .content(senderUser))
                 .andExpect(status().isOk())
-                .andExpect(content().json(expectedAuthUser));
+                .andExpect(content().json(expectedSenderUser));
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/app-users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(receiverUser))
                 .andExpect(content().json(expectedReceiverUser));
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/app-users")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(user3))
-                .andExpect(content().json(expectedUser3));
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/app-users")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(user4))
-                .andExpect(content().json(expectedUser4));
-
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/transactions")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/transactions").with(user("senderUser"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
-                        
+                                                
                         {       "id": "1",
                                 "senderAccountNumber": 1,
                                 "receiverAccountNumber": 2,
@@ -247,13 +95,14 @@ class TransactionControllerTest {
                          
                         """));
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/transactions")
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/transactions").with(user("receiverUser"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
-                        
+                                                
                         {       "id": "2",
-                                "senderAccountNumber": 3,
-                                "receiverAccountNumber": 4,
+                                "senderAccountNumber": 2,
+                                "receiverAccountNumber": 1,
                                 "amount": 500,
                                 "purpose": "test transaction",
                                 "transactionDate": ""
@@ -262,7 +111,7 @@ class TransactionControllerTest {
                         """));
 
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/transactions"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/transactions").with(user("senderUser")))
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
                                   [
@@ -272,15 +121,58 @@ class TransactionControllerTest {
                                 "receiverAccountNumber": 2,
                                 "amount": 500.0,
                                 "purpose": "test transaction"
+                                },
+                                {       
+                                "id": "2",
+                                "senderAccountNumber": 2,
+                                "receiverAccountNumber": 1,
+                                "amount": 500.0,
+                                "purpose": "test transaction"
                                 }
+                                                         
                                 ]
                                 """,
                         false));
 
     }
 
+    @Test
+    void getAllFromAuthUser_whenNoTransactionExists_thenReturnEmptyArray() throws Exception {
 
- */
+        String senderUser = """
+                {
+                    "username":"senderUser",
+                    "password":"password",
+                    "accountNumber": "", 
+                    "accountType": "private",
+                    "accountBalance": ""
+                }
+                """;
+
+        String expectedSenderUser = """
+                {
+                    "username": "senderUser",
+                    "password": "",
+                    "accountNumber": 1, 
+                    "accountType": "private",
+                    "accountBalance": 1500
+                }
+                """;
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/app-users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(senderUser))
+                .andExpect(status().isOk())
+                .andExpect(content().json(expectedSenderUser));
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/transactions").with(user("senderUser")))
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                                  []
+                                """,
+                        true));
+
+    }
 
 
     @Test
@@ -466,11 +358,9 @@ class TransactionControllerTest {
     }
 
 
-
-
     @Test
     @WithMockUser(username = "senderUser", roles = "BASIC")
-    void sendTransaction_whenPostTransactionWithAmountHigherThanAccountBalance_thenShouldReturnBadRequestException() throws Exception{
+    void sendTransaction_whenPostTransactionWithAmountHigherThanAccountBalance_thenShouldReturnBadRequestException() throws Exception {
         String senderUser = """
                 {
                     "username":"senderUser",
@@ -540,7 +430,7 @@ class TransactionControllerTest {
 
     @Test
     @WithMockUser(username = "senderUser", roles = "BASIC")
-    void sendTransaction_PostTransactionAndReceiverAccountNumberNotExists_thenShouldReturnItemNotFoundException() throws Exception{
+    void sendTransaction_PostTransactionAndReceiverAccountNumberNotExists_thenShouldReturnItemNotFoundException() throws Exception {
         String senderUser = """
                 {
                     "username":"senderUser",
@@ -607,6 +497,7 @@ class TransactionControllerTest {
         );
 
     }
+
     @Test
     @WithMockUser(username = "senderUser", roles = "BASIC")
     void sendTransaction_PostTransactionAndReceiverAccountNumberExists_thenShouldReturnTransaction() throws Exception {
