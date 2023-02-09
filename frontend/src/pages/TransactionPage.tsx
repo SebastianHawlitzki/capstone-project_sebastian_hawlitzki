@@ -29,11 +29,12 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 export default function TransactionPage() {
 
     const [transaction, setTransaction] = useState<Transaction>({
+        id: "",
         senderAccountNumber: 0,
         receiverAccountNumber: 0,
         amount: 0,
         purpose: "",
-        transactionDate: new Date().toLocaleDateString(),
+        transactionDate: ""
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

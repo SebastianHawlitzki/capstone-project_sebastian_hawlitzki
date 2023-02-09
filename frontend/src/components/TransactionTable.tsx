@@ -101,7 +101,7 @@ export default function TransactionTable() {
                 </TableHead>
                 <TableBody>
                     {transactions.map((transaction) => (
-                        <StyledTableRow className={tableRowHighlight(transaction).props.className}>
+                        <StyledTableRow key={transaction.id} className={tableRowHighlight(transaction).props.className}>
                             <StyledTableCell component="th" scope="row">
                                 {new Date(transaction.transactionDate).toLocaleDateString("de-DE", {
                                     weekday: 'short',

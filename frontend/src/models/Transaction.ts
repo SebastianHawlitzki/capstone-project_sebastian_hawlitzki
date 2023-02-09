@@ -1,4 +1,5 @@
 export type Transaction = {
+    id: string,
     senderAccountNumber: number,
     receiverAccountNumber: number,
     amount: number,
