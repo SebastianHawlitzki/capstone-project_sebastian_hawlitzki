@@ -1,4 +1,4 @@
-package de.neuefische.backend.appUser;
+package de.neuefische.backend.appuser;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -14,11 +14,11 @@ class AppUserServiceTest {
     @Test
     void create_whenAppUser_thenCreateAppUser() {
         // given
-        AppUser appUser = new AppUser("1", "User", "", 0, "private", 0);
+        AppUser appUser = new AppUser("1", "User", "", 0, "private", 1500);
 
         AppUserRepository appUserRepository = Mockito.mock(AppUserRepository.class);
         Mockito.when(appUserRepository.save(appUser))
-                .thenReturn(new AppUser("1", "User", "", 0, "private", 0));
+                .thenReturn(new AppUser("1", "User", "", 0, "private", 1500));
 
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         AppUserService appUserService = new AppUserService(appUserRepository, bCryptPasswordEncoder);
@@ -27,7 +27,7 @@ class AppUserServiceTest {
         AppUser actual = appUserService.create(appUser);
 
         // then
-        AppUser expected = new AppUser("1", "User", "", 1, "private", 0);
+        AppUser expected = new AppUser("1", "User", "", 1, "private", 1500);
         Assertions.assertEquals(expected, actual);
 
         Mockito.verify(appUserRepository).save(appUser);
@@ -36,7 +36,7 @@ class AppUserServiceTest {
     @Test
     void create_whenAppUserWithAccountNumber1_thenCreateAppUserWithAccountNumber2() {
         // given
-        AppUser existingAppUser = new AppUser("1", "User", "", 1, "private", 0);
+        AppUser existingAppUser = new AppUser("1", "User", "", 1, "private", 1500);
         Optional<AppUser> appUserWithMaxAccountNumber = Optional.of(existingAppUser);
 
 
@@ -52,7 +52,7 @@ class AppUserServiceTest {
         AppUser actual = appUserService.create(existingAppUser);
 
         // then
-        AppUser expected = new AppUser("1", "User", "", 2, "private", 0);
+        AppUser expected = new AppUser("1", "User", "", 2, "private", 1500);
         Assertions.assertEquals(expected, actual);
 
         Mockito.verify(appUserRepository).save(existingAppUser);
@@ -75,7 +75,7 @@ class AppUserServiceTest {
         try {
             appUserService.create(appUser);
         } catch (ResponseStatusException e) {
-            Assertions.assertEquals(e.getStatus(), HttpStatus.CONFLICT);
+            Assertions.assertEquals(HttpStatus.CONFLICT, e.getStatus());
         }
         Mockito.verify(appUserRepository).findByUsername("User");
     }

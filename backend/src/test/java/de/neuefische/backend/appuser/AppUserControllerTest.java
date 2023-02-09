@@ -1,4 +1,4 @@
-package de.neuefische.backend.appUser;
+package de.neuefische.backend.appuser;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,7 @@ class AppUserControllerTest {
                                     "password": "",
                                     "accountNumber": 1,
                                     "accountType": "private",
-                                    "accountBalance": 0
+                                    "accountBalance": 1500
                                 }
                                 """,
                         true
@@ -71,7 +71,7 @@ class AppUserControllerTest {
                                     "password": "",
                                     "accountNumber": 1,
                                     "accountType": "private",
-                                    "accountBalance": 0
+                                    "accountBalance": 1500
                                 }
                                 """,
                         true

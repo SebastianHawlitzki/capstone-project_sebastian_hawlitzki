@@ -1,7 +1,7 @@
 package de.neuefische.backend.transaction;
 
-import de.neuefische.backend.appUser.AppUser;
-import de.neuefische.backend.appUser.AppUserRepository;
+import de.neuefische.backend.appuser.AppUser;
+import de.neuefische.backend.appuser.AppUserRepository;
 import de.neuefische.backend.exception.ItemNotFoundException;
 import de.neuefische.backend.exception.NotEnoughBalanceException;
 import lombok.RequiredArgsConstructor;
