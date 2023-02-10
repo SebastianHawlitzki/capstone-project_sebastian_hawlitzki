@@ -1,7 +1,7 @@
 package de.neuefische.backend.configuration;
 
-import de.neuefische.backend.appuser.AppUser;
-import de.neuefische.backend.appuser.AppUserService;
+import de.neuefische.backend.appUser.AppUser;
+import de.neuefische.backend.appUser.AppUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

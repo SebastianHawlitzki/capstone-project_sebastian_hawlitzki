@@ -79,7 +79,7 @@ function Copyright(props: any) {
                     <IconButton
                         size="large"
                         edge="start"
-                        color="inherit"
+
                         aria-label="menu"
                         sx={{mr: 2}}>
                     </IconButton>
@@ -100,7 +100,7 @@ function Copyright(props: any) {
                         alignItems: 'center',
                     }}
                 >
-                    <Avatar sx={{ m: 1, bgcolor: 'primary' }}>
+                    <Avatar sx={{ m: 1 }}>
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
@@ -133,7 +133,7 @@ function Copyright(props: any) {
                             type="submit"
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 3, mb: 2, bgcolor: 'primary' }}
+                            sx={{ mt: 3, mb: 2}}
                         >
                             Sign In
                         </Button>

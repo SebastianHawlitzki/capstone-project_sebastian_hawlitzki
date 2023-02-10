@@ -1,4 +1,4 @@
-package de.neuefische.backend.appuser;
+package de.neuefische.backend.appUser;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
