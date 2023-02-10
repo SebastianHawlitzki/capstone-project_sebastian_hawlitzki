@@ -1,7 +1,7 @@
 package de.neuefische.backend.transaction;
 
-import de.neuefische.backend.appuser.AppUser;
-import de.neuefische.backend.appuser.AppUserRepository;
+import de.neuefische.backend.appUser.AppUser;
+import de.neuefische.backend.appUser.AppUserRepository;
 import de.neuefische.backend.exception.ItemNotFoundException;
 import de.neuefische.backend.exception.NotEnoughBalanceException;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -22,18 +23,20 @@ public class TransactionService {
 
 
 
-    public List<Transaction> getAllFromAuthUser(){
-        AppUser senderUser = appUserRepository.findByUsername
-                (SecurityContextHolder.getContext().getAuthentication().getName()).get();
-
-        int authUserAccountNumber = senderUser.getAccountNumber();
-
-        return transactionRepository.findBySenderAccountNumberOrReceiverAccountNumber(authUserAccountNumber, authUserAccountNumber);
-
+    public List<Transaction> getAllFromAuthUser() {
+        Optional<AppUser> optionalSenderUser = appUserRepository.findByUsername
+                (SecurityContextHolder.getContext().getAuthentication().getName());
+        if (optionalSenderUser.isPresent()) {
+            AppUser senderUser = optionalSenderUser.get();
+            int authUserAccountNumber = senderUser.getAccountNumber();
+            return transactionRepository.findBySenderAccountNumberOrReceiverAccountNumber(authUserAccountNumber, authUserAccountNumber);
+        } else {
+            throw new NoSuchElementException("No user found for given username");
+        }
     }
 
 
-    public Transaction sendTransaction(Transaction transaction) {
+        public Transaction sendTransaction(Transaction transaction) {
         AppUser senderUser = appUserRepository.findByUsername
                 (SecurityContextHolder.getContext().getAuthentication().getName()).get();
 

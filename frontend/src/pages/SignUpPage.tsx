@@ -13,6 +13,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import * as React from "react";
+import {FormControl, InputLabel, MenuItem, Select, SelectChangeEvent} from "@mui/material";
 
 
 
@@ -33,6 +34,15 @@ export default function SignUpPage () {
         },
         [credentials, setCredentials]
     );
+
+    const selectChange = useCallback(
+        (event: SelectChangeEvent) => {
+            const {name, value} = event.target;
+            setCredentials({...credentials, [name]: value});
+        },
+        [credentials, setCredentials]
+    );
+
 
 
     const navigate = useNavigate();
@@ -57,6 +67,41 @@ export default function SignUpPage () {
         },
         [credentials, navigate, location]
     );
+
+
+/*
+    <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">Kontoart</InputLabel>
+        <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            label="Kontoart"
+            onChange={selectChange}
+        >
+            <MenuItem value={credentials.accountType}>Girokonto</MenuItem>
+            <MenuItem value={credentials.accountType}>Sparkonto</MenuItem>
+            <MenuItem value={credentials.accountType}>Geschäftskonto</MenuItem>
+        </Select>
+    </FormControl>
+
+ */
+/*
+    <TextField
+        margin="normal"
+        required
+        fullWidth
+        id="accountType"
+        label="Kontoart"
+        name="accountType"
+        autoComplete="accountType"
+        autoFocus
+        value={credentials.accountType}
+        onChange={handleChange}
+    />
+
+
+
+ */
 
     return (
         <Box sx={{flexGrow: 1}}>
@@ -105,18 +150,21 @@ export default function SignUpPage () {
                             value={credentials.username}
                             onChange={handleChange}
                         />
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="accountType"
-                            label="Kontoart"
-                            name="accountType"
-                            autoComplete="accountType"
-                            autoFocus
-                            value={credentials.accountType}
-                            onChange={handleChange}
-                        />
+                        <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label">Kontoart</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={credentials.accountType}
+                                name={"accountType"}
+                                label="Kontoart"
+                                onChange={selectChange}
+                            >
+                                <MenuItem value={"girokonto"}>Girokonto</MenuItem>
+                                <MenuItem value={"sparkonto"}>Sparkonto</MenuItem>
+                                <MenuItem value={"geschäftskonto"}>Geschäftskonto</MenuItem>
+                            </Select>
+                        </FormControl>
                         <TextField
                             margin="normal"
                             required
