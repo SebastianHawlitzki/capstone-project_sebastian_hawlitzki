@@ -127,8 +127,7 @@ export default function SignUpPage () {
                                 label="Kontoart"
                                 onChange={selectChange}
                             >
-                                <MenuItem value={"Girokonto"}>Girokonto</MenuItem>
-                                <MenuItem value={"Sparkonto"}>Sparkonto</MenuItem>
+                                <MenuItem value={"Privatkonto"}>Privatkonto</MenuItem>
                                 <MenuItem value={"Geschäftskonto"}>Geschäftskonto</MenuItem>
                             </Select>
                         </FormControl>

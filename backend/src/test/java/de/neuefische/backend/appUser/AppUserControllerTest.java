@@ -41,7 +41,7 @@ class AppUserControllerTest {
                                     "password": "",
                                     "accountNumber": 1,
                                     "accountType": "private",
-                                    "accountBalance": 1500
+                                    "accountBalance": 3500
                                 }
                                 """,
                         true
@@ -71,7 +71,7 @@ class AppUserControllerTest {
                                     "password": "",
                                     "accountNumber": 1,
                                     "accountType": "private",
-                                    "accountBalance": 1500
+                                    "accountBalance": 3500
                                 }
                                 """,
                         true

@@ -30,7 +30,7 @@ public class AppUserService {
         int accountNumber = maxAccountNumber.map(AppUser::getAccountNumber).orElse(0) + 1;
         appUser.setAccountNumber(accountNumber);
 
-        appUser.setAccountBalance(1500);
+        appUser.setAccountBalance(3500);
 
         appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
 
