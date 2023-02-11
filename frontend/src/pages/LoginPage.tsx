@@ -62,7 +62,7 @@ function Copyright(props: any) {
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
             {'Copyright © '}
             <Link color="inherit" href="https://capstone-sebastian-hawlitzki.fly.dev/">
-                Your Website
+                SmartBanking
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
