@@ -33,10 +33,10 @@ export default function AccountBalanceDisplay() {
             <Paper elevation={1} style={{ padding: 10, margin:20, marginTop:50, width: '35ch'}}>
                 <Grid container justifyContent={"space-between"}>
                     <Grid item>
-                        <Typography variant="h6" style={{fontSize: 18, fontWeight: 400}}>Kontostand:</Typography>
+                        <Typography variant="h6" style={{fontSize: 18}}>Kontostand:</Typography>
                     </Grid>
                     <Grid item>
-                        <Typography variant="h6" style={{fontSize: 18, fontWeight: 400}}> {convert.format(appUser.accountBalance)}</Typography>
+                        <Typography variant="h6" style={{fontSize: 18}}> {convert.format(appUser.accountBalance)}</Typography>
                     </Grid>
                 </Grid>
             </Paper>

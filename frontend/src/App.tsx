@@ -14,14 +14,14 @@ export default function App() {
         palette: {
             mode: 'dark',
             primary: {
-                main: '#5893df',
+                main: '#297abf',
             },
             secondary: {
-                main: '#2ec5d3',
+                main: '#17669a',
             },
             background: {
                 default: '#192231',
-                paper: '#24344d',
+                paper: '#17669a',
             },
         },
     });

@@ -91,7 +91,7 @@ export default function TransactionPage() {
                         aria-label="menu"
                         sx={{mr: 2}}>
                     </IconButton>
-                    <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
+                    <Typography variant="h6" component="div" sx={{flexGrow: 1}}  style={{fontSize: 24}}>
                         SmartBanking
                     </Typography>
                     <LogoutButton/>

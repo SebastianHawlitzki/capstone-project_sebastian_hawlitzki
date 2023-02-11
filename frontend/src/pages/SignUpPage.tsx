@@ -69,39 +69,6 @@ export default function SignUpPage () {
     );
 
 
-/*
-    <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Kontoart</InputLabel>
-        <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            label="Kontoart"
-            onChange={selectChange}
-        >
-            <MenuItem value={credentials.accountType}>Girokonto</MenuItem>
-            <MenuItem value={credentials.accountType}>Sparkonto</MenuItem>
-            <MenuItem value={credentials.accountType}>Geschäftskonto</MenuItem>
-        </Select>
-    </FormControl>
-
- */
-/*
-    <TextField
-        margin="normal"
-        required
-        fullWidth
-        id="accountType"
-        label="Kontoart"
-        name="accountType"
-        autoComplete="accountType"
-        autoFocus
-        value={credentials.accountType}
-        onChange={handleChange}
-    />
-
-
-
- */
 
     return (
         <Box sx={{flexGrow: 1}}>
@@ -114,7 +81,7 @@ export default function SignUpPage () {
                         aria-label="menu"
                         sx={{mr: 2}}>
                     </IconButton>
-                    <Typography variant="h5" component="div" sx={{flexGrow: 1}}>
+                    <Typography variant="h6" component="div" sx={{flexGrow: 1}}  style={{fontSize: 24}}>
                         SmartBanking
                     </Typography>
                 </Toolbar>
@@ -160,9 +127,9 @@ export default function SignUpPage () {
                                 label="Kontoart"
                                 onChange={selectChange}
                             >
-                                <MenuItem value={"girokonto"}>Girokonto</MenuItem>
-                                <MenuItem value={"sparkonto"}>Sparkonto</MenuItem>
-                                <MenuItem value={"geschäftskonto"}>Geschäftskonto</MenuItem>
+                                <MenuItem value={"Girokonto"}>Girokonto</MenuItem>
+                                <MenuItem value={"Sparkonto"}>Sparkonto</MenuItem>
+                                <MenuItem value={"Geschäftskonto"}>Geschäftskonto</MenuItem>
                             </Select>
                         </FormControl>
                         <TextField
