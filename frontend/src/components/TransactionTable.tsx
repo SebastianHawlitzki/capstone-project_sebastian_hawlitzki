@@ -87,7 +87,7 @@ export default function TransactionTable() {
     return (
         <Box sx={{paddingTop: 4, paddingLeft: 3, paddingRight: 3}}>
             <TableContainer component={Paper} style={{height: '400px', overflowY: 'scroll'}}>
-                <Table sx={{width: '170%', margin: 'auto'}} stickyHeader aria-label="sticky table">
+                <Table sx={{width: '190%', margin: 'auto'}} stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
                             <StyledTableCell>Datum</StyledTableCell>
@@ -98,7 +98,7 @@ export default function TransactionTable() {
                     </TableHead>
                     <TableBody>
                         {transactions.map((transaction) => (
-                            <StyledTableRow key={transaction.id}>
+                            <StyledTableRow key={transaction.transactionDate}>
                                 <StyledTableCell component="th" scope="row">
                                     {new Date(transaction.transactionDate).toLocaleDateString("de-DE", {
                                         weekday: 'short',
