@@ -17,28 +17,25 @@ import Box from "@mui/material/Box";
 import useAppUser from "../hooks/useAppUser";
 
 
-
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
+const StyledTableCell = styled(TableCell)(({theme}) => ({
     [`&.${tableCellClasses.head}`]: {
-        backgroundColor: theme.palette.primary.main,
+        backgroundColor: '#17669a',
         color: theme.palette.common.white,
     },
     [`&.${tableCellClasses.body}`]: {
-        fontSize: 14,
+        fontSize: 15,
+        fontWeight: 400
     },
 }));
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    '&:nth-of-type(odd)': {
-       // backgroundColor: theme.palette.action.hover,
+const StyledTableRow = styled(TableRow)({
+    backgroundColor: 'rgba(25,34,49,0.9)',
 
-    },
     // hide last border
     '&:last-child td, &:last-child th': {
         border: 0,
     },
-}));
+});
 
 
 
@@ -66,7 +63,6 @@ export default function TransactionTable() {
     }
 
 
-
     const plusOrMinusAmount = (transaction: Transaction) => {
         if (appUser.accountNumber === transaction.senderAccountNumber) {
             return "- ";
@@ -76,49 +72,51 @@ export default function TransactionTable() {
     };
 
 
-
-    const tableRowHighlight = (transaction: Transaction) => {
+    const tableTextHighlight = (transaction: Transaction) => {
         if (appUser.accountNumber === transaction.senderAccountNumber) {
-            return <div className={"amountRed"}/>;
+            return {
+                color: 'rgba(200, 0, 0, 1)'
+            };
         } else {
-            return <div className={"amountGreen"}/>;
+            return {
+                color: 'rgba(0, 160, 0, 1)'
+            };
         }
     };
 
-
-
     return (
-        <Box sx={{paddingTop:4, paddingLeft: 3, paddingRight:3}}>
-        <TableContainer component={Paper} style={{ height: '400px', overflowY: 'scroll' }}>
-            <Table sx={{ width:'170%',margin:'auto' }} stickyHeader aria-label="sticky table">
-                <TableHead>
-                    <TableRow>
-                        <StyledTableCell>Datum</StyledTableCell>
-                        <StyledTableCell align="right">Betrag</StyledTableCell>
-                        <StyledTableCell align="right">Verwendungszweck</StyledTableCell>
-                        <StyledTableCell align="right">Empfänger-IBAN</StyledTableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {transactions.map((transaction) => (
-                        <StyledTableRow key={transaction.id} className={tableRowHighlight(transaction).props.className}>
-                            <StyledTableCell component="th" scope="row">
-                                {new Date(transaction.transactionDate).toLocaleDateString("de-DE", {
-                                    weekday: 'short',
-                                    day: 'numeric',
-                                    month: 'short',
-                                    year: 'numeric'
-                                })}
-                            </StyledTableCell>
-                            <StyledTableCell align="right" >{plusOrMinusAmount(transaction)}{convert.format(transaction.amount)}</StyledTableCell>
-                            <StyledTableCell align="right">{transaction.purpose}</StyledTableCell>
-                            <StyledTableCell align="right">{transaction.receiverAccountNumber}</StyledTableCell>
-                        </StyledTableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
-            </Box>
+        <Box sx={{paddingTop: 4, paddingLeft: 3, paddingRight: 3}}>
+            <TableContainer component={Paper} style={{height: '400px', overflowY: 'scroll'}}>
+                <Table sx={{width: '200%', margin: 'auto'}} stickyHeader aria-label="sticky table">
+                    <TableHead>
+                        <TableRow>
+                            <StyledTableCell>Datum</StyledTableCell>
+                            <StyledTableCell align="right">Betrag</StyledTableCell>
+                            <StyledTableCell align="right">Verwendungszweck</StyledTableCell>
+                            <StyledTableCell align="right">Empfänger-IBAN</StyledTableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {transactions.map((transaction) => (
+                            <StyledTableRow key={transaction.transactionDate}>
+                                <StyledTableCell component="th" scope="row">
+                                    {new Date(transaction.transactionDate).toLocaleDateString("de-DE", {
+                                        weekday: 'short',
+                                        day: 'numeric',
+                                        month: 'short',
+                                        year: 'numeric'
+                                    })}
+                                </StyledTableCell>
+                                <StyledTableCell align="right"
+                                                 style={tableTextHighlight(transaction)}>{plusOrMinusAmount(transaction)}{convert.format(transaction.amount)}</StyledTableCell>
+                                <StyledTableCell align="right">{transaction.purpose}</StyledTableCell>
+                                <StyledTableCell align="right">DE 99 9009 9009 0000 0{transaction.receiverAccountNumber}</StyledTableCell>
+                            </StyledTableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </Box>
     );
 }
 

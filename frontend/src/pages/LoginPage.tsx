@@ -62,7 +62,7 @@ function Copyright(props: any) {
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
             {'Copyright © '}
             <Link color="inherit" href="https://capstone-sebastian-hawlitzki.fly.dev/">
-                Your Website
+                SmartBanking
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
@@ -83,7 +83,7 @@ function Copyright(props: any) {
                         aria-label="menu"
                         sx={{mr: 2}}>
                     </IconButton>
-                    <Typography variant="h5" component="div" sx={{flexGrow: 1}}>
+                    <Typography variant="h6" component="div" sx={{flexGrow: 1}}  style={{fontSize: 24}}>
                         SmartBanking
                     </Typography>
                 </Toolbar>

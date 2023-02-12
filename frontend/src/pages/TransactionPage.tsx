@@ -29,7 +29,6 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 export default function TransactionPage() {
 
     const [transaction, setTransaction] = useState<Transaction>({
-        id: "",
         senderAccountNumber: 0,
         receiverAccountNumber: 0,
         amount: 0,
@@ -91,7 +90,7 @@ export default function TransactionPage() {
                         aria-label="menu"
                         sx={{mr: 2}}>
                     </IconButton>
-                    <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
+                    <Typography variant="h6" component="div" sx={{flexGrow: 1}}  style={{fontSize: 24}}>
                         SmartBanking
                     </Typography>
                     <LogoutButton/>
