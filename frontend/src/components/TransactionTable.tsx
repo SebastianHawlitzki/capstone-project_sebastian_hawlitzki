@@ -87,7 +87,7 @@ export default function TransactionTable() {
     return (
         <Box sx={{paddingTop: 4, paddingLeft: 3, paddingRight: 3}}>
             <TableContainer component={Paper} style={{height: '400px', overflowY: 'scroll'}}>
-                <Table sx={{width: '190%', margin: 'auto'}} stickyHeader aria-label="sticky table">
+                <Table sx={{width: '200%', margin: 'auto'}} stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
                             <StyledTableCell>Datum</StyledTableCell>
@@ -110,7 +110,7 @@ export default function TransactionTable() {
                                 <StyledTableCell align="right"
                                                  style={tableTextHighlight(transaction)}>{plusOrMinusAmount(transaction)}{convert.format(transaction.amount)}</StyledTableCell>
                                 <StyledTableCell align="right">{transaction.purpose}</StyledTableCell>
-                                <StyledTableCell align="right">{transaction.receiverAccountNumber}</StyledTableCell>
+                                <StyledTableCell align="right">DE 99 9009 9009 0000 0{transaction.receiverAccountNumber}</StyledTableCell>
                             </StyledTableRow>
                         ))}
                     </TableBody>
