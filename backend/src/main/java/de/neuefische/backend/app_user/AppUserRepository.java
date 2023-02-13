@@ -1,4 +1,4 @@
-package de.neuefische.backend.appUser;
+package de.neuefische.backend.app_user;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
