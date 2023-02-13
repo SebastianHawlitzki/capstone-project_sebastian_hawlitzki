@@ -41,7 +41,7 @@ class AppUserControllerTest {
                                     "password": "",
                                     "accountNumber": 1,
                                     "accountType": "private",
-                                    "accountBalance": 0
+                                    "accountBalance": 1500
                                 }
                                 """,
                         true
@@ -71,7 +71,7 @@ class AppUserControllerTest {
                                     "password": "",
                                     "accountNumber": 1,
                                     "accountType": "private",
-                                    "accountBalance": 0
+                                    "accountBalance": 1500
                                 }
                                 """,
                         true
@@ -85,7 +85,7 @@ class AppUserControllerTest {
                             "username": "user",
                             "password": "password",
                             "accountType": "private",
-                            "accountBalance": 0
+                            "accountBalance": 1500
                         }
                         """)).andExpectAll(
                 MockMvcResultMatchers.status().isConflict());
