@@ -22,7 +22,6 @@ public class TransactionService {
     private final AppUserRepository appUserRepository;
 
 
-
     public List<Transaction> getAllFromAuthUser() {
         Optional<AppUser> optionalSenderUser = appUserRepository.findByUsername
                 (SecurityContextHolder.getContext().getAuthentication().getName());
@@ -36,46 +35,48 @@ public class TransactionService {
     }
 
 
-        public Transaction sendTransaction(Transaction transaction) {
-        AppUser senderUser = appUserRepository.findByUsername
-                (SecurityContextHolder.getContext().getAuthentication().getName()).get();
+    //bugfix
+    public Transaction sendTransaction(Transaction transaction) {
+        Optional<AppUser> optionalSenderUser = appUserRepository.findByUsername
+                (SecurityContextHolder.getContext().getAuthentication().getName());
+        if (optionalSenderUser.isPresent()) {
+            AppUser senderUser = optionalSenderUser.get();
+            int senderAccountNumber = senderUser.getAccountNumber();
+            transaction.setSenderAccountNumber(senderAccountNumber);
 
-        int senderAccountNumber = senderUser.getAccountNumber();
-        transaction.setSenderAccountNumber(senderAccountNumber);
+            double senderAccountBalance = senderUser.getAccountBalance();
+            double transactionAmount = transaction.getAmount();
 
-        double senderAccountBalance = senderUser.getAccountBalance();
-        double transactionAmount = transaction.getAmount();
-
-        if (senderAccountBalance < transactionAmount) {
-            throw new NotEnoughBalanceException(senderAccountBalance);
+            if (senderAccountBalance < transactionAmount) {
+                throw new NotEnoughBalanceException(senderAccountBalance);
             }
+            int receiverAccountNumber = transaction.getReceiverAccountNumber();
+            Optional<AppUser> receiverUser = appUserRepository.findAppUsersByAccountNumber(receiverAccountNumber);
 
-        int receiverAccountNumber = transaction.getReceiverAccountNumber();
-        Optional<AppUser> receiverUser = appUserRepository.findAppUsersByAccountNumber(receiverAccountNumber);
+            double updatedSenderAccountBalance = senderAccountBalance - transactionAmount;
+            senderUser.setAccountBalance(updatedSenderAccountBalance);
 
-        double updatedSenderAccountBalance = senderAccountBalance - transactionAmount;
-        senderUser.setAccountBalance(updatedSenderAccountBalance);
-
-        if (receiverUser.isPresent()) {
-            double receiverAccountBalance = receiverUser.get().getAccountBalance();
-            double updateReceiverAccountBalance = receiverAccountBalance + transactionAmount;
-            receiverUser.get().setAccountBalance(updateReceiverAccountBalance);
+            if (receiverUser.isPresent()) {
+                double receiverAccountBalance = receiverUser.get().getAccountBalance();
+                double updateReceiverAccountBalance = receiverAccountBalance + transactionAmount;
+                receiverUser.get().setAccountBalance(updateReceiverAccountBalance);
             } else {
-            throw new ItemNotFoundException(receiverAccountNumber);
+                throw new ItemNotFoundException(receiverAccountNumber);
             }
 
-        Date transactionDate = new Date();
-        transaction.setTransactionDate(transactionDate);
+            Date transactionDate = new Date();
+            transaction.setTransactionDate(transactionDate);
 
-        appUserRepository.save(senderUser);
+            appUserRepository.save(senderUser);
 
-        AppUser receiver = receiverUser.get();
-        appUserRepository.save(receiver);
+            AppUser receiver = receiverUser.get();
+            appUserRepository.save(receiver);
 
-        transactionRepository.save(transaction);
-
+            transactionRepository.save(transaction);
+        } else {
+            throw new NoSuchElementException("No user found for given username");
+        }
         return transaction;
-
     }
 }
 

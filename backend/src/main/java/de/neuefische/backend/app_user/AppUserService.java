@@ -32,6 +32,8 @@ public class AppUserService {
 
         appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
 
+        appUser.setAccountBalance(1500);
+
         appUserRepository.save(appUser);
 
         appUser.setPassword("");

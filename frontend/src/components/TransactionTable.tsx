@@ -75,11 +75,11 @@ export default function TransactionTable() {
     const tableTextHighlight = (transaction: Transaction) => {
         if (appUser.accountNumber === transaction.senderAccountNumber) {
             return {
-                color: 'rgba(200, 0, 0, 1)'
+                color: 'rgb(255,0,0)'
             };
         } else {
             return {
-                color: 'rgba(0, 160, 0, 1)'
+                color: 'rgb(0,200,0)'
             };
         }
     };

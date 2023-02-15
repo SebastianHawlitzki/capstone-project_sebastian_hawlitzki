@@ -1,4 +1,4 @@
-package de.neuefische.backend.controller;
+package de.neuefische.backend.transaction;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +24,6 @@ class TransactionControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
-
 
     @Test
     void getAllFromAuthUser_whenAuthUserAccountNumberEqualsTransactionSenderAccountNumberOrTransactionReceiverAccountNumber_thenReturnAuthUserTransactions() throws Exception {
