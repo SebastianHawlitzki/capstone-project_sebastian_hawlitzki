@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import {BrowserRouter} from "react-router-dom";
 import Root from "./Root";
 import {createTheme, ThemeProvider} from "@mui/material";

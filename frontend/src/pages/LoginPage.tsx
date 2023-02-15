@@ -16,47 +16,6 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 
-
-
-export default function LoginPage () {
-
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-
-    const [error, setError] = useState("");
-
-    const navigate = useNavigate();
-
-    const toSignUpPage = () => {
-        navigate('/signup');
-    };
-
-
-
-
-
-
-    const login = useCallback(async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-        setError("");
-
-        try {
-            await axios.post("/api/app-users/login", null, {
-                headers: {
-                    "Authorization": "Basic " + window.btoa(
-                        username + ":" + password
-                    )
-                }
-            });
-
-            navigate("/");
-        } catch (e) {
-            setError("Invalid username or password");
-        }
-    }, [navigate, password, username]);
-
-
 function Copyright(props: any) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -70,6 +29,33 @@ function Copyright(props: any) {
     );
 }
 
+export default function LoginPage () {
+
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+    const navigate = useNavigate();
+    const toSignUpPage = () => {
+        navigate('/signup');
+    };
+
+
+    const login = useCallback(async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setError("");
+        try {
+            await axios.post("/api/app-users/login", null, {
+                headers: {
+                    "Authorization": "Basic " + window.btoa(
+                        username + ":" + password
+                    )
+                }
+            });
+            navigate("/");
+        } catch (e) {
+            setError("Invalid username or password");
+        }
+    }, [navigate, password, username]);
 
 
     return (
