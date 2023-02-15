@@ -35,7 +35,6 @@ public class TransactionService {
     }
 
 
-    //bugfix
     public Transaction sendTransaction(Transaction transaction) {
         Optional<AppUser> optionalSenderUser = appUserRepository.findByUsername
                 (SecurityContextHolder.getContext().getAuthentication().getName());
