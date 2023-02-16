@@ -65,7 +65,7 @@ class TransactionServiceTest {
         assertEquals("No user found for given username", exception.getMessage());
     }
 
-    
+
  */
 
 }

@@ -27,7 +27,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .antMatchers(
                         HttpMethod.POST,
-                        "/api/app-users"
+                        "/api/app-users",
+                        "/api/app-users/login"
                 ).permitAll()
                 .anyRequest()
                 .authenticated()
