@@ -27,17 +27,18 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .antMatchers(
                         HttpMethod.POST,
-                        "/api/users"
+                        "/api/app-users"
                 ).permitAll()
                 .antMatchers(
                         HttpMethod.POST,
-                        "/api/users/login"
+                        "/api/app-users/login"
                 )
                 .permitAll()
                 .antMatchers(
                         "/api/**"
                 )
                 .authenticated()
+                .anyRequest().permitAll()
                 .and()
                 .build();
     }

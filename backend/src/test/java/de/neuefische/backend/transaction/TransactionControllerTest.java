@@ -26,6 +26,7 @@ class TransactionControllerTest {
     private MockMvc mockMvc;
 
     @Test
+    @WithMockUser(username = "senderUser", roles = "BASIC")
     void getAllFromAuthUser_whenAuthUserAccountNumberEqualsTransactionSenderAccountNumberOrTransactionReceiverAccountNumber_thenReturnAuthUserTransactions() throws Exception {
         String senderUser = """
                 {
@@ -135,6 +136,7 @@ class TransactionControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "senderUser", roles = "BASIC")
     void getAllFromAuthUser_whenNoTransactionExists_thenReturnEmptyArray() throws Exception {
 
         String senderUser = """

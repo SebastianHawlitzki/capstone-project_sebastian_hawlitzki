@@ -11,7 +11,7 @@ class BackendApplicationTests {
 
     @Test
     void contextLoads() {
-        //Assertions.assertTrue(true);
+        Assertions.assertTrue(true);
 
     }
 
