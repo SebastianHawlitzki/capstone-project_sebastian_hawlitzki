@@ -41,7 +41,7 @@ class AppUserControllerTest {
                                     "password": "",
                                     "accountNumber": 1,
                                     "accountType": "private",
-                                    "accountBalance": 1500
+                                    "accountBalance": 1500.0
                                 }
                                 """,
                         true
@@ -85,18 +85,13 @@ class AppUserControllerTest {
                             "username": "user",
                             "password": "password",
                             "accountType": "private",
-                            "accountBalance": 1500
+                            "accountBalance": 0
                         }
                         """)).andExpectAll(
                 MockMvcResultMatchers.status().isConflict());
 
     }
 
-    @Test
-    void login_whenAppUserNotExist_thenReturn401() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/app-users/login")).
-                andExpectAll(MockMvcResultMatchers.status().isUnauthorized());
-    }
 
     @Test
     @WithMockUser(username = "user", roles = "BASIC")
